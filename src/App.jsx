@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import Todos from "./components/Todos";
+import TodoForm from "./components/TodoForm";
 // import "./App.css";
+
+export const TodoContext = createContext();
 
 function App() {
   const [todos, setTodos] = useState([
@@ -31,11 +34,42 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const deleteTodo = (todoId) => {
+    const deleteTodos = todos.filter((todo) => {
+      if (todo.id === todoId) {
+        return false;
+      }
+      return true;
+    });
+    setTodos(deleteTodos);
+  };
+
+  const addTodo = (todoTitle) => {
+    // Tambahkan validasi jika ternyata tidak ada yang diketikkan sebagai title
+    if (todoTitle === "") {
+      return;
+    }
+
+    // Buat data newTodo menggunakan nilai dari todoTitle
+    const newTodo = {
+      // id: todos.length + 1,
+      id: todos[todos.length - 1].id + 1,
+      title: todoTitle,
+      completed: false,
+    };
+
+    const updatedTodos = todos.concat(newTodo);
+    setTodos(updatedTodos);
+  };
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>My Todo List</h1>
-      <Todos todos={todos} toggleCompleted={toggleCompleted} />
-    </div>
+    <TodoContext.Provider value={{ toggleCompleted, deleteTodo }}>
+      <div style={styles.container}>
+        <h1 style={styles.header}>My Todo List</h1>
+        <TodoForm addTodo={addTodo} />
+        <Todos todos={todos} />
+      </div>
+    </TodoContext.Provider>
   );
 }
 

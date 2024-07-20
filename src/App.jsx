@@ -63,15 +63,11 @@ function App() {
   };
 
   return (
-    <TodoContext.Provider value={{ toggleCompleted }}>
+    <TodoContext.Provider value={{ toggleCompleted, deleteTodo }}>
       <div style={styles.container}>
         <h1 style={styles.header}>My Todo List</h1>
         <TodoForm addTodo={addTodo} />
-        <Todos
-          todos={todos}
-          toggleCompleted={toggleCompleted}
-          deleteTodo={deleteTodo}
-        />
+        <Todos todos={todos} />
       </div>
     </TodoContext.Provider>
   );

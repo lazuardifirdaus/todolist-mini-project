@@ -1,5 +1,10 @@
-const TodoItem = ({ todo, toggleCompleted, deleteTodo }) => {
-  // Definisikan function getTodoTitleStyle di sini
+import { useContext } from "react";
+import { TodoContext } from "../App";
+
+const TodoItem = ({ todo }) => {
+  // Peroleh "toggleCompleted" dan "deleteTodo" dari TodoContext
+  const { toggleCompleted, deleteTodo } = useContext(TodoContext);
+
   const getTodoTitleStyle = () => {
     if (todo.completed === true) {
       return { textDecoration: "line-through" };
